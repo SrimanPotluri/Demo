@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.Map;
 
+import com.example.demo.model.ToDo;
 import com.example.demo.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User user, String todo) {
-        user.getTodos().add(todo);
+        user.getTodos().add(new ToDo(user.getName(), todo));
+        hashOperations.put("TODOS", user.getName(), user.getTodos());
         hashOperations.put("USERS", user.getName(), user);
     
     }

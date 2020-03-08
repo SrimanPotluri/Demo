@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.demo.UserRepository;
+import com.example.demo.model.ToDo;
 import com.example.demo.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class MainController {
     }
     	
     @RequestMapping(value="/api/todos", method =  RequestMethod.GET)
-    public List<String> getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
+    public List<ToDo> getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
         return userRepository.findByName(createdBy) != null? userRepository.findByName(createdBy).getTodos() : null;
     }
 
@@ -54,11 +55,19 @@ public class MainController {
         
     }
 
-    @RequestMapping(value="/api/todos/{id}", method =  RequestMethod.GET)
+    /*@RequestMapping(value="/api/todos/{id}", method =  RequestMethod.GET)
     public String getTodoById( @RequestHeader("APP_USERNAME") String createdBy, @PathVariable("id") String id) {
 
-        return "its specific id" + String.valueOf(id) ;
-    }
+        User user = userRepository.findByName(createdBy);
+        
+        if(user==null){
+
+            //save to a new user 
+            return "User doesn't exist";
+        }
+        
+        return userRepository.findByName(createdBy).getTodos().get(id); 
+    }*/
 
 
 
