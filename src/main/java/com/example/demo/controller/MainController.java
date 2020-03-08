@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 import com.example.demo.UserRepository;
@@ -28,20 +29,23 @@ public class MainController {
     }
     	
     @RequestMapping(value="/api/todos", method =  RequestMethod.GET)
-    public User getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
-        return userRepository.findByName(createdBy);
+    public List<String> getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
+        return userRepository.findByName(createdBy) != null? userRepository.findByName(createdBy).getTodos() : null;
     }
 
     @RequestMapping(value="/api/todos", method =  RequestMethod.POST)
     public User insertTodo(@RequestHeader("APP_USERNAME") String createdBy, @RequestBody String jsonObject) {
 
         User user = userRepository.findByName(createdBy);
+        
         if(user==null){
 
+            //save to a new user 
             userRepository.save(new User(createdBy), jsonObject);
         }
         else
         {
+            //save to already existing user
             userRepository.save(user, jsonObject);
 
         }
