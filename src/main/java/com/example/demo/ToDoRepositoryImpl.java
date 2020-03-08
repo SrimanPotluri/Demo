@@ -25,7 +25,7 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     public ToDo save(String createdBy, String id, String todo) {
 
         
-        hashOperations.put("TODOS", createdBy+id, new ToDo(createdBy, id, todo));
+        hashOperations.putIfAbsent("TODOS", createdBy+id, new ToDo(createdBy, id, todo));
         return (ToDo) hashOperations.get("TODOS", createdBy+id);
     
     }
@@ -36,6 +36,7 @@ public class ToDoRepositoryImpl implements ToDoRepository {
     @Override
     public ToDo findById(String createdBy, String id) {
         
+        String s = createdBy+id;
         return (ToDo) hashOperations.get("TODOS", createdBy+id);
     }
 

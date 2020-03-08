@@ -57,6 +57,9 @@ public class MainController {
 
                 user = new User(createdBy);
             }
+
+            
+
             user.addTodos(todo);
             userRepository.save(user);
             

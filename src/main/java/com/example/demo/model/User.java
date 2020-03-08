@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -47,7 +48,16 @@ public class User implements Serializable{
     }
 
     public void addTodos(ToDo todo) {
+
         
+        Iterator<ToDo> iterate = todos.iterator();
+        while(iterate.hasNext()){
+
+            if(iterate.next().id.equals(todo.getId())){
+
+                return;
+            }
+        }
         this.todos.add(todo);
     }
 

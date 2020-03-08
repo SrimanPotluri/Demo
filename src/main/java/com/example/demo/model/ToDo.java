@@ -15,7 +15,7 @@ public class ToDo implements Serializable{
    
     @Id String id;
     private String todo;
-    private String createdBy;
+    @Id private String createdBy;
     
    
    
