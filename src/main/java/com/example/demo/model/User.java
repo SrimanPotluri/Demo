@@ -5,35 +5,53 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 
 
 
+@RedisHash("User")
 public class User implements Serializable{
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    @Id
     private String createdBy;
-    private Long id;
-    private List<ToDo> todos;
+    private List<ToDo> todos = new ArrayList<>();
    
    
     public User(String createdBy){
 
         this.createdBy=createdBy;
-        todos = new ArrayList<ToDo>();
         
     }
 
-    public String getName(){
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public List<ToDo> getTodos(){
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
 
+    public List<ToDo> getTodos() {
         return todos;
     }
 
-    
+    public void setTodos(List<ToDo> todos) {
+        this.todos = todos;
+    }
 
+    public void addTodos(ToDo todo) {
+        
+        this.todos.add(todo);
+    }
+
+ 
+    
   
       
 }

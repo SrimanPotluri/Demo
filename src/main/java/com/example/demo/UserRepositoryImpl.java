@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import java.util.Map;
 
 import com.example.demo.model.ToDo;
 import com.example.demo.model.User;
@@ -24,10 +23,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void save(User user, String todo) {
-        user.getTodos().add(new ToDo(user.getName(), todo));
-        hashOperations.put("TODOS", user.getName(), user.getTodos());
-        hashOperations.put("USERS", user.getName(), user);
+    public void save(User user, String id, String todo) {
+        user.addTodos(new ToDo(user.getCreatedBy(), id, todo));
+
+       //only save unique keys to the todos
+        
+        hashOperations.put("USERS", user.getCreatedBy(), user);
     
     }
 
@@ -36,17 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
         return (User) hashOperations.get("USERS", name);
     }
 
-    @Override
-    public void update(User user) {
-
-    }
-
-    @Override
-    public Map<String, User> findAll() {
-        return hashOperations.entries("USERS");
-        
-    }
-
+    
    
 
     

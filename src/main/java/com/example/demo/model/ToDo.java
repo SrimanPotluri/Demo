@@ -3,30 +3,35 @@ package com.example.demo.model;
 
 import java.io.Serializable;
 
+import org.springframework.data.redis.core.index.Indexed;
+
+
 public class ToDo implements Serializable{
 
     
+   
     private static final long serialVersionUID = 1L;
-    
-    
-    private String createdBy;
+   
+    @Indexed String id;
     private String todo;
     
    
    
-    public ToDo(String createdBy, String todo){
+    public ToDo(String createdBy, String id, String todo){
 
-        this.createdBy=createdBy;
+       
+        this.id = createdBy + "-" + id;
         this.todo = todo;
         
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+
+    public String getId() {
+        return id;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTodo() {
@@ -37,6 +42,7 @@ public class ToDo implements Serializable{
         this.todo = todo;
     }
 
+   
     
       
 }
