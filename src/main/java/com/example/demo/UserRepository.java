@@ -6,8 +6,9 @@ import com.example.demo.model.User;
 
 public interface UserRepository {
 
-    void save(User user, String id, String todo);
+    void save(User user);
     User findByName(String name);
+	
     
    
     

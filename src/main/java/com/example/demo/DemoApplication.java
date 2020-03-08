@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.model.ToDo;
 import com.example.demo.model.User;
 
 import org.springframework.boot.SpringApplication;
@@ -22,6 +23,14 @@ public class DemoApplication {
 	RedisTemplate<String, User> redisTemplate() {
 
 		RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(jedisConnectionFactory());
+		return redisTemplate;
+	}
+
+	@Bean
+	RedisTemplate<String, ToDo> redisTemplate2() {
+
+		RedisTemplate<String, ToDo> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(jedisConnectionFactory());
 		return redisTemplate;
 	}

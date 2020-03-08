@@ -2,12 +2,10 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.validation.constraints.Null;
 
+import com.example.demo.ToDoRepository;
 import com.example.demo.UserRepository;
 import com.example.demo.model.ToDo;
 import com.example.demo.model.User;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -27,9 +25,13 @@ public class MainController {
     @Autowired
     private UserRepository userRepository;
 
-    public MainController(UserRepository userRepository){
+    @Autowired
+    private ToDoRepository todoRepository;
+
+    public MainController(UserRepository userRepository, ToDoRepository toDoRepository){
 
         this.userRepository = userRepository;
+        this.todoRepository = toDoRepository;
 
     }
 
@@ -45,18 +47,18 @@ public class MainController {
 
         User user = userRepository.findByName(createdBy);
         
-        if(user==null){
+        
 
             //save to a new user 
-            userRepository.save(new User(createdBy), jsonObject.split(":")[0], jsonObject.split(":")[1]);
-        }
-        else
-        {
-            //save to already existing user
-            userRepository.save(user, jsonObject.split(":")[0], jsonObject.split(":")[1]);
+            ToDo todo = todoRepository.save(createdBy, jsonObject.split(":")[0], jsonObject.split(":")[1]);
 
-        }
-        
+            if(user==null){
+
+                user = new User(createdBy);
+            }
+            user.addTodos(todo);
+            userRepository.save(user);
+            
         return user;
         
     }
@@ -65,21 +67,12 @@ public class MainController {
     public ToDo getTodoById( @RequestHeader("APP_USERNAME") String createdBy, @PathVariable(value="id") String id) {
 
        
-        Iterator<ToDo> iterate= userRepository.findByName(createdBy).getTodos().iterator();
+       
 
-        while(iterate.hasNext()){
-            
-            ToDo todo = iterate.next();
-            if(todo.getId().equals(id)){
-
-                
-
-                return todo;
-            }
-        }
+        return todoRepository.findById(createdBy, id);
         
         
-        return null;
+        
     }
     
 
