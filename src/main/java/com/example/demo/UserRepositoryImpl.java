@@ -33,6 +33,8 @@ public class UserRepositoryImpl implements UserRepository {
     public void save(User user) {
         // TODO Auto-generated method stub
 
+        hashOperations.put("USERS", user.getCreatedBy(), user);
+
     }
 
     

@@ -40,6 +40,7 @@ public class MainController {
     @RequestMapping(value="/api/todos", method =  RequestMethod.GET)
     public List<ToDo> getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
         return userRepository.findByName(createdBy) != null? userRepository.findByName(createdBy).getTodos() : null;
+        
     }
 
     @RequestMapping(value="/api/todos", method =  RequestMethod.POST)
