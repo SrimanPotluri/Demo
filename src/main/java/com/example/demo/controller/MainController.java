@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 import com.example.demo.UserRepository;
 import com.example.demo.model.User;
 
@@ -26,17 +28,26 @@ public class MainController {
     }
     	
     @RequestMapping(value="/api/todos", method =  RequestMethod.GET)
-    public String getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
-
-        return "Lot of todos";
+    public User getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
+        return userRepository.findByName(createdBy);
     }
 
     @RequestMapping(value="/api/todos", method =  RequestMethod.POST)
     public User insertTodo(@RequestHeader("APP_USERNAME") String createdBy, @RequestBody String jsonObject) {
 
-        //save the user to the repository
-        userRepository.save(new User(createdBy));
+        User user = userRepository.findByName(createdBy);
+        if(user==null){
+
+            userRepository.save(new User(createdBy), jsonObject);
+        }
+        else
+        {
+            userRepository.save(user, jsonObject);
+
+        }
+        
         return userRepository.findByName(createdBy);
+        
     }
 
     @RequestMapping(value="/api/todos/{id}", method =  RequestMethod.GET)
@@ -44,6 +55,15 @@ public class MainController {
 
         return "its specific id" + String.valueOf(id) ;
     }
+
+
+
+   @RequestMapping(value="/findAllUsers", method =  RequestMethod.GET)
+    public Map<String, User> findAll() {
+
+        return userRepository.findAll() ;
+    }
+
 
 
 }

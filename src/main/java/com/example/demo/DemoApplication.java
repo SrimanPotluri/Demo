@@ -25,6 +25,7 @@ public class DemoApplication {
 		redisTemplate.setConnectionFactory(jedisConnectionFactory());
 		return redisTemplate;
 	}
+
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);

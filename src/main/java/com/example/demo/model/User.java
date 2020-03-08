@@ -2,21 +2,37 @@
 package com.example.demo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class User  implements Serializable{
 
-    private String name;
+
+
+public class User implements Serializable{
+
+    private String createdBy;
     private Long id;
+    private List<String> todos;
    
-    public User(String name){
+   
+    public User(String createdBy){
 
-        this.name=name;
+        this.createdBy=createdBy;
+        todos = new ArrayList<String>();
+        
     }
 
     public String getName(){
-
-        return name;
+        return createdBy;
     }
- 
+
+    public List<String> getTodos(){
+
+        return todos;
+    }
+
     
+
+  
+      
 }

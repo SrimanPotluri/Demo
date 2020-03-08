@@ -1,12 +1,13 @@
 package com.example.demo;
 
+import java.util.Map;
+
 import com.example.demo.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
-
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -16,16 +17,16 @@ public class UserRepositoryImpl implements UserRepository {
 
     private HashOperations hashOperations;
 
-
     public UserRepositoryImpl(RedisTemplate<String, User> redisTemplate) {
         this.redisTemplate = redisTemplate;
         hashOperations = redisTemplate.opsForHash();
     }
- 
-    @Override
-    public void save(User user) {
-        hashOperations.put("USERS", user.getName(), user);
 
+    @Override
+    public void save(User user, String todo) {
+        user.getTodos().add(todo);
+        hashOperations.put("USERS", user.getName(), user);
+    
     }
 
     @Override
@@ -38,7 +39,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     }
 
+    @Override
+    public Map<String, User> findAll() {
+        return hashOperations.entries("USERS");
+        
+    }
+
+   
 
     
+
+   
+
 
 }
