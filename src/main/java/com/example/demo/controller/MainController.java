@@ -1,6 +1,11 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.UserRepository;
+import com.example.demo.model.User;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -11,7 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RestController
 public class MainController {
 
-	
+    @Autowired
+    private UserRepository userRepository;
+
+    public MainController(UserRepository userRepository){
+
+        this.userRepository = userRepository;
+
+    }
+    	
     @RequestMapping(value="/api/todos", method =  RequestMethod.GET)
     public String getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
 
@@ -19,10 +32,11 @@ public class MainController {
     }
 
     @RequestMapping(value="/api/todos", method =  RequestMethod.POST)
-    public String insertTodo(@RequestHeader("APP_USERNAME") String createdBy, @RequestBody String jsonObject) {
+    public User insertTodo(@RequestHeader("APP_USERNAME") String createdBy, @RequestBody String jsonObject) {
 
-
-        return "Lot of todos" + createdBy + jsonObject;
+        //save the user to the repository
+        userRepository.save(new User(createdBy));
+        return userRepository.findByName(createdBy);
     }
 
     @RequestMapping(value="/api/todos/{id}", method =  RequestMethod.GET)
