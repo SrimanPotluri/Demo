@@ -48,17 +48,12 @@ public class MainController {
 
         User user = userRepository.findByName(createdBy);
         
-        
-
-            //save to a new user 
-            ToDo todo = todoRepository.save(createdBy, jsonObject.split(":")[0], jsonObject.split(":")[1]);
+        ToDo todo = todoRepository.save(createdBy, jsonObject.split(":")[0], jsonObject.split(":")[1]);
 
             if(user==null){
 
                 user = new User(createdBy);
             }
-
-            
 
             user.addTodos(todo);
             userRepository.save(user);
