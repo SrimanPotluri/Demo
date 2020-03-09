@@ -44,6 +44,14 @@ public class ToDo implements Serializable{
         this.todo = todo;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
    
     
       

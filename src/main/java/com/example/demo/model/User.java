@@ -15,9 +15,7 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash("User")
 public class User implements Serializable{
 
-    /**
-     *
-     */
+   
     private static final long serialVersionUID = 1L;
     @Id
     private String createdBy;

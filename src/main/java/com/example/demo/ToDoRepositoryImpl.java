@@ -35,8 +35,7 @@ public class ToDoRepositoryImpl implements ToDoRepository {
 
     @Override
     public ToDo findById(String createdBy, String id) {
-        
-        String s = createdBy+id;
+
         return (ToDo) hashOperations.get("TODOS", createdBy+id);
     }
 
