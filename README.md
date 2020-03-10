@@ -14,7 +14,7 @@ Links:
 
 Challenges:
 
-Docker, AWS deployment difficulties, since I haven't used these technologies before. Therefore, I had time to only simulate with
+Docker, AWS deployment difficulties, since I haven't used these some of technologies before. Therefore, I had time to only simulate with
 the postman client and you could simulate too as the system resides on AWS.
 
 Time to completion:
