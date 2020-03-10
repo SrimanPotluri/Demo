@@ -40,7 +40,7 @@ public class MainController {
     @RequestMapping(value="/api/todos", method =  RequestMethod.GET)
     public ResponseEntity<?> getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
 
-        return userRepository.findByName(createdBy) != null? new ResponseEntity<>(userRepository.findByName(createdBy).getTodos(), HttpStatus.OK) : new ResponseEntity<>("user doesn't exist", HttpStatus.OK);
+        return userRepository.findByName(createdBy) != null? new ResponseEntity<>(userRepository.findByName(createdBy).getTodos(), HttpStatus.OK) : new ResponseEntity<>("user doesn't exist", HttpStatus.UNAUTHORIZED);
         
     }
 
@@ -70,7 +70,7 @@ public class MainController {
         User user = userRepository.findByName(createdBy);
         ToDo todo = todoRepository.findById(createdBy, id);
 
-        return user!=null? (todo!=null? new ResponseEntity<>(todo, HttpStatus.OK): new ResponseEntity<>("invalid todo for the user", HttpStatus.OK)) : new ResponseEntity<>("User doesn't exist", HttpStatus.OK);
+        return user!=null? (todo!=null? new ResponseEntity<>(todo, HttpStatus.OK): new ResponseEntity<>("Todo not matched for this user", HttpStatus.UNAUTHORIZED)) : new ResponseEntity<>("User doesn't exist", HttpStatus.UNAUTHORIZED);
         
     }
     
