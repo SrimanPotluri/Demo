@@ -14,8 +14,7 @@ Links:
 
 Challenges:
 
-Docker, AWS deployment difficulties, since I haven't used these some of technologies before. Therefore, I had time to only simulate with
-the postman client and you could simulate too as the system resides on AWS.
+Docker, AWS deployment difficulties, since I haven't used these some of technologies before. Therefore, I had time to only simulate with the postman client and you could simulate too as the system resides on AWS.
 
 Time to completion:
 
@@ -24,4 +23,10 @@ Time to completion:
 Future enhnacements:
 
 Build a front end and have its own container with nginx. Manages all the container with docker-compose.
+Enable https by installing free certs.
+Configure Nginx to route http traffic on https and enable cashing
+Front end request data validation on ReactJS
+
+
+
 
