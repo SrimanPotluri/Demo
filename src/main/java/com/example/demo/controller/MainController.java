@@ -4,13 +4,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 import com.example.demo.ToDoRepository;
 import com.example.demo.UserRepository;
 import com.example.demo.model.ToDo;
 import com.example.demo.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,16 +36,16 @@ public class MainController {
 
     }
 
-    
     	
     @RequestMapping(value="/api/todos", method =  RequestMethod.GET)
-    public List<ToDo> getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
-        return userRepository.findByName(createdBy) != null? userRepository.findByName(createdBy).getTodos() : null;
+    public ResponseEntity<?> getTodos(@RequestHeader("APP_USERNAME") String createdBy) {
+
+        return userRepository.findByName(createdBy) != null? new ResponseEntity<>(userRepository.findByName(createdBy).getTodos(), HttpStatus.OK) : new ResponseEntity<>("user doesn't exist", HttpStatus.OK);
         
     }
 
     @RequestMapping(value="/api/todos", method =  RequestMethod.POST)
-    public User insertTodo(@RequestHeader("APP_USERNAME") String createdBy, @RequestBody String jsonObject) {
+    public ResponseEntity<?> insertTodo(@RequestHeader("APP_USERNAME") String createdBy, @RequestBody String jsonObject) {
 
         User user = userRepository.findByName(createdBy);
         
@@ -58,29 +59,18 @@ public class MainController {
             user.addTodos(todo);
             userRepository.save(user);
             
-        return user;
+        return new ResponseEntity<>(user, HttpStatus.OK);
         
     }
 
+    
     @RequestMapping(value="/api/todos/{id}", method =  RequestMethod.GET)
-    public ToDo getTodoById( @RequestHeader("APP_USERNAME") String createdBy, @PathVariable(value="id") String id) {
+    public ResponseEntity<?> getTodoById( @RequestHeader("APP_USERNAME") String createdBy, @PathVariable(value="id") String id) {
 
-       
-       
-
-        return todoRepository.findById(createdBy, id);
-        
-        
+        return new ResponseEntity<>(todoRepository.findById(createdBy, id), HttpStatus.OK);
         
     }
     
-
-    
-
-
-
-   
-
 
 }
 
