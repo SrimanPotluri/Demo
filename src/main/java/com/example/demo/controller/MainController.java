@@ -10,6 +10,7 @@ import com.example.demo.ToDoRepository;
 import com.example.demo.UserRepository;
 import com.example.demo.model.ToDo;
 import com.example.demo.model.User;
+import com.google.gson.Gson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,15 +63,16 @@ public class MainController {
 
         User user = userRepository.findByName(createdBy);
 
-        ToDo todo = todoRepository.save(createdBy, jsonObject.split(":")[0], jsonObject.split(":")[1]);
+        if(user==null){
 
-            if(user==null){
+            user = new User(createdBy);
+        }
 
-                user = new User(createdBy);
-            }
+        Gson gson = new Gson();
+        ToDo todo = gson.fromJson(jsonObject, ToDo.class);
 
-            user.addTodos(todo);
-            userRepository.save(user);
+        user.addTodos(todoRepository.save(createdBy, todo.getId(), todo.getTodo()));
+        userRepository.save(user);
             
         return new ResponseEntity<>(user, HttpStatus.OK);
         
