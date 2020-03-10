@@ -67,7 +67,10 @@ public class MainController {
     @RequestMapping(value="/api/todos/{id}", method =  RequestMethod.GET)
     public ResponseEntity<?> getTodoById( @RequestHeader("APP_USERNAME") String createdBy, @PathVariable(value="id") String id) {
 
-        return new ResponseEntity<>(todoRepository.findById(createdBy, id), HttpStatus.OK);
+        User user = userRepository.findByName(createdBy);
+        ToDo todo = todoRepository.findById(createdBy, id);
+
+        return user!=null? (todo!=null? new ResponseEntity<>(todo, HttpStatus.OK): new ResponseEntity<>("invalid todo for the user", HttpStatus.OK)) : new ResponseEntity<>("User doesn't exist", HttpStatus.OK);
         
     }
     
